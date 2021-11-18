@@ -13,3 +13,17 @@
     outline: 2px solid slateblue;
 
 }
+
+.vis-container {
+
+    position: relative;
+
+}
+
+p.label {
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+    margin: 0;
+
+}

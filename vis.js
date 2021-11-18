@@ -60,7 +60,7 @@ const v = {
                 )
               .force("charge", d3.forceManyBody().strength(
                 function(d) {
-                    return -Math.pow(v.vis.scales.r(d.n), 2.0) * .9;
+                    return -Math.pow(v.vis.scales.r(d.n), 2.0) * 1.1;
                 })) //-10
               .force("x", d3.forceX(450))
               .force("y", d3.forceY(250));
@@ -98,9 +98,11 @@ const v = {
     vis : {
 
         svg : 'svg.vis',
+        container : 'div.vis-container',
 
         nodes : null,
         links : null,
+        labels: null,
 
         scales : {
 
@@ -125,6 +127,7 @@ const v = {
         draw : () => {
 
             const svg = d3.select(v.vis.svg);
+            const cont = d3.select(v.vis.container);
 
             const links = v.data.links;
             const nodes = v.data.nodes;
@@ -153,6 +156,15 @@ const v = {
             v.vis.nodes.append("title")
             .text(d => `${d.node} (${d.type})`);
 
+            v.vis.labels = cont
+              .selectAll('p.label.label-eixo')
+              .data(nodes.filter(d => d.type == "eixo"))
+              .join('p')
+              .classed('label', true)
+              .classed('label-eixo', true)
+              .text(d => d.node);
+
+
             sim.on("tick", () => {
                 v.vis.links
                     .attr("x1", d => d.source.x)
@@ -163,6 +175,10 @@ const v = {
                 v.vis.nodes
                     .attr("cx", d => d.x)
                     .attr("cy", d => d.y);
+
+                v.vis.labels
+                    .style("left", d => d.x + 'px')
+                    .style("top", d => d.y + 'px');
             });
 
         }

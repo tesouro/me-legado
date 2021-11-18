@@ -27,16 +27,24 @@ data <- data_pre %>%
 
 eixos <- data %>%
   rename(node = eixo) %>%
-  count(node)
+  count(node) %>% 
+  mutate(type = 'eixo')
 
 temas <- data %>%
   rename(node = Tema) %>%
-  count(node)
+  count(node) %>%
+  mutate(type = 'tema')
 
-nodes <- bind_rows(eixos, temas) %>% 
+acoes <- data %>%
+  rename(node = `Ação`) %>%
+  count(node) %>%
+  mutate(type = 'acao') %>%
+  filter(n >= 1)
+
+nodes <- bind_rows(eixos, temas, acoes) %>% 
   mutate(id = row_number())
 
-links <- data %>%
+links_eixo_tema <- data %>%
   select(source_name = eixo, target_name = Tema) %>%
   distinct() %>%
   left_join(nodes, by = c("source_name" = "node")) %>%
@@ -45,6 +53,16 @@ links <- data %>%
   rename(target = id) %>%
   select(source, target)
 
+links_tema_acao <- data %>%
+  select(source_name = Tema, target_name = `Ação`) %>%
+  distinct() %>%
+  left_join(nodes, by = c("source_name" = "node")) %>%
+  rename(source = id) %>%
+  left_join(nodes, by = c("target_name" = "node")) %>%
+  rename(target = id) %>%
+  select(source, target)
+
+links = bind_rows(links_eixo_tema, links_tema_acao)
 
 jsonlite::write_json(
   list(nodes = nodes, links = links), '../network.json')

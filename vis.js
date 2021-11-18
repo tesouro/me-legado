@@ -35,6 +35,12 @@ const v = {
 
     },
 
+    utils : {
+
+        unique : (data, coluna) => data.map(d => d[coluna]).filter((d,i,a) => a.indexOf(d) >= i)
+
+    },
+
     sim : {
 
         obj : null,
@@ -100,11 +106,17 @@ const v = {
 
             r : d3.scaleSqrt(),
 
+            color : d3.scaleOrdinal(),
+
             set : () => {
 
                 v.vis.scales.r
                   .domain(d3.extent(v.data.nodes, d => d.n))
                   .range([2,30])
+
+                v.vis.scales.color
+                  .domain(v.utils.unique(v.data.nodes, 'type'))
+                  .range(['tomato', 'dodgerblue', 'green'])
 
             }
 
@@ -126,7 +138,7 @@ const v = {
                 .data(links)
                 .join("line")
                 .attr("stroke", "#f20666")
-                .attr("stroke-width", 0.12);
+                .attr("stroke-width", 0.2);
                 //.attr("stroke", d => d.target.children ? null : "#f20666")
                 //.attr("stroke-width", d => d.target.children ? null : 0.12);
 
@@ -134,8 +146,8 @@ const v = {
               .selectAll("circle")
               .data(nodes)
               .join("circle")
-              .attr("fill", d => d.type == "eixo" ? 'goldenrod' : 'dodgerblue')
-              .attr("r", d => v.vis.scales.r(d.n))
+              .attr("fill", d => v.vis.scales.color(d.type) )
+              .attr("r", d => v.vis.scales.r(d.n) )
               .call(v.sim.drag(sim));
 
             v.vis.nodes.append("title")

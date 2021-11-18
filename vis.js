@@ -52,7 +52,10 @@ const v = {
                     .distance(20)
                     .strength(1)
                 )
-              .force("charge", d3.forceManyBody().strength(-10))
+              .force("charge", d3.forceManyBody().strength(
+                function(d) {
+                    return -Math.pow(v.vis.scales.r(d.n), 2.0) * 1;
+                })) //-10
               .force("x", d3.forceX())
               .force("y", d3.forceY());
 
@@ -93,6 +96,20 @@ const v = {
         nodes : null,
         links : null,
 
+        scales : {
+
+            r : d3.scaleSqrt(),
+
+            set : () => {
+
+                v.vis.scales.r
+                  .domain(d3.extent(v.data.nodes, d => d.n))
+                  .range([2,30])
+
+            }
+
+        },
+
         draw : () => {
 
             const svg = d3.select(v.vis.svg);
@@ -118,8 +135,11 @@ const v = {
               .data(nodes)
               .join("circle")
               .attr("fill", d => d.type == "eixo" ? 'goldenrod' : 'dodgerblue')
-              .attr("r", 5)
+              .attr("r", d => v.vis.scales.r(d.n))
               .call(v.sim.drag(sim));
+
+            v.vis.nodes.append("title")
+            .text(d => `${d.node} (${d.type})`);
 
             sim.on("tick", () => {
                 v.vis.links
@@ -154,6 +174,7 @@ const v = {
 
         data_is_loaded : () => {
 
+            v.vis.scales.set();
             v.sim.init();
             v.vis.draw();
 

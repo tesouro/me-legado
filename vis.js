@@ -31,7 +31,10 @@ const v = {
                   data.nodes.forEach(d => {
 
                     d.x = Math.random() * w;
+                    d.x0 = Math.random() * w;
+
                     d.y = Math.random() * h;
+                    d.y0 = Math.random() * h;
 
                   })
 
@@ -232,15 +235,60 @@ const v = {
             },
 
             handle : (e) => {
+
+                v.vis.links.attr('opacity', 1);
                 
                 v.sim.obj
-                  .velocityDecay(.6)
+                  .velocityDecay(.7)
                   .alpha(.75)
                   .restart();
 
             }
 
-        }
+        },
+
+        reset : {
+
+            el : 'button.reset',
+
+            monitora : () => {
+                
+                const btn = document.querySelector(v.interactions.reset.el);
+                
+                btn.addEventListener('click', v.interactions.reset.handle)
+
+            },
+
+            handle : (e) => {
+                
+                v.sim.obj
+                  .stop();
+
+                v.vis.nodes
+                  .transition()
+                  .duration(1000)
+                  .attr('cx', d => d.x0)
+                  .attr('cy', d => d.y0);
+
+                v.vis.labels
+                  .transition()
+                  .duration(1000)
+                  .style('left', d => d.x0 + 'px')
+                  .style('top', d => d.y0 + 'px');
+
+                // reseta posicoes no objeto nodes
+                v.data.nodes.forEach(node => {
+                    node.x = node.x0;
+                    node.y = node.y0
+                })
+
+                v.vis.links.attr('opacity', 0);
+
+            }
+
+        },
+
+
 
     },
 
@@ -260,6 +308,7 @@ const v = {
             v.sim.init();
             v.vis.draw();
             v.interactions.inicio.monitora();
+            v.interactions.reset.monitora();
 
 
 

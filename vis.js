@@ -50,14 +50,14 @@ const v = {
                   d3.forceLink(links)
                     .id(d => d.id)
                     .distance(20)
-                    .strength(1)
+                    .strength(.5)
                 )
               .force("charge", d3.forceManyBody().strength(
                 function(d) {
-                    return -Math.pow(v.vis.scales.r(d.n), 2.0) * 1;
+                    return -Math.pow(v.vis.scales.r(d.n), 2.0) * .9;
                 })) //-10
-              .force("x", d3.forceX())
-              .force("y", d3.forceY());
+              .force("x", d3.forceX(450))
+              .force("y", d3.forceY(250));
 
         },
 
@@ -143,14 +143,14 @@ const v = {
 
             sim.on("tick", () => {
                 v.vis.links
-                    .attr("x1", d => d.source.x + 200)
-                    .attr("y1", d => d.source.y + 200)
-                    .attr("x2", d => d.target.x + 200)
-                    .attr("y2", d => d.target.y + 200);
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
             
                 v.vis.nodes
-                    .attr("cx", d => d.x + 200)
-                    .attr("cy", d => d.y + 200);
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
             });
 
         }

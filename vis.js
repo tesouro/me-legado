@@ -24,6 +24,17 @@ const v = {
 
                 //   console.log(v.data.root);
 
+                  // inicializa posições
+                  const h = v.vis.sizings.h;
+                  const w = v.vis.sizings.w;
+
+                  data.nodes.forEach(d => {
+
+                    d.x = Math.random() * w;
+                    d.y = Math.random() * h;
+
+                  })
+
                   v.data.nodes = data.nodes;
                   v.data.links = data.links;
 
@@ -63,7 +74,10 @@ const v = {
                     return -Math.pow(v.vis.scales.r(d.n), 2.0) * 1.1;
                 })) //-10
               .force("x", d3.forceX(450))
-              .force("y", d3.forceY(250));
+              .force("y", d3.forceY(250))
+              //.alphaMin(0.25);
+
+            v.sim.obj.stop();
 
         },
 
@@ -103,6 +117,22 @@ const v = {
         nodes : null,
         links : null,
         labels: null,
+
+        sizings : {
+
+            w : null,
+            h : null,
+
+            get : () => {
+
+                const svg = document.querySelector(v.vis.svg);
+
+                v.vis.sizings.w = +window.getComputedStyle(svg).width.slice(0,-2);
+                v.vis.sizings.h = +window.getComputedStyle(svg).height.slice(0,-2);
+
+            }
+
+        },
 
         scales : {
 
@@ -151,6 +181,8 @@ const v = {
               .join("circle")
               .attr("fill", d => v.vis.scales.color(d.type) )
               .attr("r", d => v.vis.scales.r(d.n) )
+              .attr("cx", d => d.x)
+              .attr("cy", d => d.y)
               .call(v.sim.drag(sim));
 
             v.vis.nodes.append("title")
@@ -183,11 +215,32 @@ const v = {
 
         }
 
+    },
 
-  
+    interactions : {
 
+        inicio : {
 
+            el : 'button.inicio',
 
+            monitora : () => {
+                
+                const btn = document.querySelector(v.interactions.inicio.el);
+                
+                btn.addEventListener('click', v.interactions.inicio.handle)
+
+            },
+
+            handle : (e) => {
+                
+                v.sim.obj
+                  .velocityDecay(.6)
+                  .alpha(.75)
+                  .restart();
+
+            }
+
+        }
 
     },
 
@@ -196,7 +249,8 @@ const v = {
 
         init : () => {
 
-            v.data.read('network.json')
+            v.vis.sizings.get();
+            v.data.read('network.json');
 
         },
 
@@ -205,6 +259,7 @@ const v = {
             v.vis.scales.set();
             v.sim.init();
             v.vis.draw();
+            v.interactions.inicio.monitora();
 
 
 

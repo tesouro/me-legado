@@ -15,3 +15,26 @@ for (eixo in eixos) {
   
 }
 
+data_pre <- bind_rows(data_raw)
+
+data <- data_pre %>%
+  tidyr::fill(Tema) %>%
+  filter(!is.na(`Ação`)) %>%
+  mutate(Tema = ifelse(Tema == 'ESTADOS E MUNICÍPIOS', 'Estados e Municípios', Tema))
+
+eixo_tema <- data %>%
+  select(eixo, Tema) %>%
+  distinct()
+
+eixos <- data %>%
+  rename(node = eixo) %>%
+  count(node)
+
+temas <- data %>%
+  rename(node = Tema) %>%
+  count(node)
+
+nodes <- bind_rows(eixos, temas)
+
+jsonlite::write_json(
+  list(nodes = nodes, links = eixo_tema), '../network.json')

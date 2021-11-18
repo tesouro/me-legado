@@ -15,3 +15,15 @@ for (eixo in eixos) {
   
 }
 
+data_pre <- bind_rows(data_raw)
+
+data <- data_pre %>%
+  tidyr::fill(Tema) %>%
+  filter(!is.na(`Ação`)) %>%
+  mutate(Tema = replace(Tema, 'ESTADOS E MUNICÍPIOS', ''))
+
+eixo_tema <- data %>%
+  select(eixo, Tema) %>%
+  distinct()
+
+contagem <- eixo_tema %>% count(Tema)

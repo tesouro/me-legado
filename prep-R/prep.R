@@ -22,9 +22,8 @@ data <- data_pre %>%
   filter(!is.na(`Ação`)) %>%
   mutate(Tema = ifelse(Tema == 'ESTADOS E MUNICÍPIOS', 'Estados e Municípios', Tema))
 
-eixo_tema <- data %>%
-  select(eixo, Tema) %>%
-  distinct()
+
+# preparacao do grafo -----------------------------------------------------
 
 eixos <- data %>%
   rename(node = eixo) %>%
@@ -34,7 +33,18 @@ temas <- data %>%
   rename(node = Tema) %>%
   count(node)
 
-nodes <- bind_rows(eixos, temas)
+nodes <- bind_rows(eixos, temas) %>% 
+  mutate(id = row_number())
+
+links <- data %>%
+  select(source_name = eixo, target_name = Tema) %>%
+  distinct() %>%
+  left_join(nodes, by = c("source_name" = "node")) %>%
+  rename(source = id) %>%
+  left_join(nodes, by = c("target_name" = "node")) %>%
+  rename(target = id) %>%
+  select(source, target)
+
 
 jsonlite::write_json(
-  list(nodes = nodes, links = eixo_tema), '../network.json')
+  list(nodes = nodes, links = links), '../network.json')

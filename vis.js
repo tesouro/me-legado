@@ -216,6 +216,41 @@ const v = {
                     .style("top", d => d.y + 'px');
             });
 
+        },
+
+        legenda : {
+
+            el : 'div.legenda-cores',
+
+            draw : () => {
+
+                const categorias = v.utils.unique(v.data.nodes, 'type');
+
+                const legenda = document.querySelector(v.vis.legenda.el);
+
+                categorias.forEach(categoria => {
+
+                    const wrapper = document.createElement('div');
+                    wrapper.classList.add('legenda-key-wrapper');
+
+                    const key = document.createElement('span');
+                    const text = document.createElement('span');
+
+                    key.style.backgroundColor = v.vis.scales.color(categoria);
+                    key.classList.add('legenda-key');
+
+                    text.classList.add('legenda-texto');
+                    text.innerHTML = categoria;
+
+                    wrapper.appendChild(key);
+                    wrapper.appendChild(text);
+
+                    legenda.appendChild(wrapper);
+
+                })
+
+            }
+
         }
 
     },
@@ -307,6 +342,9 @@ const v = {
             v.vis.scales.set();
             v.sim.init();
             v.vis.draw();
+
+            v.vis.legenda.draw();
+
             v.interactions.inicio.monitora();
             v.interactions.reset.monitora();
 

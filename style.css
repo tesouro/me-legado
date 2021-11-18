@@ -28,6 +28,39 @@ p.label {
 
 }
 
+.legenda-cores {
+
+    position: absolute;
+    top: 1rem;
+    left: .5rem;
+    padding: .5rem;
+    background-color: ghostwhite;
+
+}
+
+.legenda-key-wrapper {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.legenda-key-wrapper + .legenda-key-wrapper {
+
+    margin-top: .3rem;
+
+}
+
+.legenda-key {
+
+    width: .8rem;
+    height: .8rem;
+    display: inline-block;
+    margin-right: .5rem;
+    border-radius: 50%;
+
+}
+
 /* CONTROLS */
 
 .controls {

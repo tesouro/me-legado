@@ -64,6 +64,9 @@ const v = {
             const nodes = v.data.nodes;
             const links = v.data.links;
 
+            const h = v.vis.sizings.h;
+            const w = v.vis.sizings.w;
+
             v.sim.obj = d3.forceSimulation(nodes)
               .force(
                   "link", 
@@ -76,8 +79,8 @@ const v = {
                 function(d) {
                     return -Math.pow(v.vis.scales.r(d.n), 2.0) * 1.1;
                 })) //-10
-              .force("x", d3.forceX(450))
-              .force("y", d3.forceY(250))
+              .force("x", d3.forceX(w/2))
+              .force("y", d3.forceY(h/2))
               //.alphaMin(0.25);
 
             v.sim.obj.stop();
@@ -197,6 +200,8 @@ const v = {
               .join('p')
               .classed('label', true)
               .classed('label-eixo', true)
+              .style('left', d => d.x + 'px')
+              .style('top', d => d.y + 'px')
               .text(d => d.node);
 
 

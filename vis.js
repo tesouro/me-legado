@@ -49,7 +49,7 @@ const v = {
                   "link", 
                   d3.forceLink(links)
                     .id(d => d.id)
-                    .distance(5)
+                    .distance(20)
                     .strength(1)
                 )
               .force("charge", d3.forceManyBody().strength(-10))
@@ -117,16 +117,16 @@ const v = {
               .selectAll("circle")
               .data(nodes)
               .join("circle")
-              .attr("fill", 'blue')
+              .attr("fill", d => d.type == "eixo" ? 'goldenrod' : 'dodgerblue')
               .attr("r", 5)
               .call(v.sim.drag(sim));
 
             sim.on("tick", () => {
                 v.vis.links
-                    .attr("x1", d => d.source.x)
-                    .attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x)
-                    .attr("y2", d => d.target.y);
+                    .attr("x1", d => d.source.x + 200)
+                    .attr("y1", d => d.source.y + 200)
+                    .attr("x2", d => d.target.x + 200)
+                    .attr("y2", d => d.target.y + 200);
             
                 v.vis.nodes
                     .attr("cx", d => d.x + 200)

@@ -7,6 +7,27 @@
     --cor-secundaria: #F0B5C9;
 }
 
+[data-eixo='Ambiente de negócios'] {
+    --cor-principal: #014541;
+    --cor-secundaria: #ADD9D2;
+}
+
+[data-eixo='Equilíbrio Fiscal'] {
+    --cor-principal: #033D56;
+    --cor-secundaria: #A6CAEA;
+}
+
+[data-eixo='Investimento'] {
+    --cor-principal: #6E2309;
+    --cor-secundaria: #F0A881;
+}
+
+[data-eixo='Serviço Público'] {
+    --cor-principal: #235329;
+    --cor-secundaria: #C4DC9B;
+}
+
+
 .card-container {
 
     display: flex;
@@ -48,11 +69,19 @@
     border-radius: 50%;
     background-color: var(--cor-principal);
     color: white;
-    border: 1px solid white;
+    border: 2px solid white;
     width: 1.5rem;
     height: 1.5rem;
     text-align: center;
     display: inline-block;
+    transition: border-color .5s, color .5s;
+    cursor: pointer;
+}
+
+.card-btn-expandir:hover {
+    /*animation: balanca 1s;*/
+    border-color: var(--cor-secundaria);
+    color: var(--cor-secundaria);
 }
 
 .card-btn-expandir::after {
@@ -67,4 +96,24 @@
     border-radius: 0 0 1rem 1rem;
     background-color: var(--cor-secundaria);
     color: white;
+}
+
+@keyframes balanca {
+
+    0% {
+        transform: translate(-50%,50%) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(-50%,50%) rotate(-15deg);
+    }
+
+    66% {
+        transform: translate(-50%,50%) rotate(15deg);
+    }
+
+    100% {
+        transform: translate(-50%,50%) rotate(0);
+    }
+    
 }

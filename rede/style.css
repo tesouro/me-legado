@@ -1,0 +1,72 @@
+* {
+
+    box-sizing: border-box;
+
+}
+
+/* VIS */
+
+.vis {
+
+    width: 100%;
+    height: 500px;
+    outline: 2px solid slateblue;
+
+}
+
+.vis-container {
+
+    position: relative;
+
+}
+
+p.label {
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+    margin: 0;
+
+}
+
+/* LEGENDA */
+
+.legenda-cores {
+
+    position: absolute;
+    top: 1rem;
+    left: .5rem;
+    padding: .5rem;
+    background-color: ghostwhite;
+
+}
+
+.legenda-key-wrapper {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.legenda-key-wrapper + .legenda-key-wrapper {
+
+    margin-top: .3rem;
+
+}
+
+.legenda-key {
+
+    width: .8rem;
+    height: .8rem;
+    display: inline-block;
+    margin-right: .5rem;
+    border-radius: 50%;
+
+}
+
+/* CONTROLS */
+
+.controls {
+
+    margin-bottom: 1rem;
+
+}

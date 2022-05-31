@@ -1,0 +1,61 @@
+* {
+    box-sizing: border-box;
+}
+
+[data-eixo='Abertura Comercial'] {
+    --cor-principal: #5E2539;
+    --cor-secundaria: #F0B5C9;
+}
+
+.card-container {
+
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+}
+
+.card {
+
+    flex: 300px 1 0;
+    padding: 1rem;
+
+}
+
+.card p {
+
+    margin: 0;
+    padding: .7em;
+
+
+}
+
+.card-container-titulo {
+
+    border-radius: 1rem 1rem 0 0;
+    background-color: var(--cor-principal);
+    color: white;
+    position: relative;
+
+}
+
+.card-btn-expandir {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translate(-50%,50%);
+    border-radius: 50%;
+    background-color: var(--cor-principal);
+    color: white;
+    border: 1px solid white;
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+    display: inline-block;
+}
+
+.card-texto {
+    border-radius: 0 0 1rem 1rem;
+    background-color: var(--cor-secundaria);
+    color: white;
+}

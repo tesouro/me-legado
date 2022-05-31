@@ -2,6 +2,29 @@
     box-sizing: border-box;
 }
 
+:root {
+    --base-angle: calc(360deg / 7);
+    --initial-angle: calc(360deg / 14);
+}
+
+.nav-wheel {
+    width: 300px;
+}
+
+svg[data-eixo-atual] {
+    transition: transform 1s;
+}
+
+[data-eixo-roda] {
+    cursor: pointer;
+}
+
+[data-eixo-atual='Abertura Comercial'] { transform: rotate(var(--initial-angle)); }
+[data-eixo-atual='Equilíbrio Fiscal'] { transform: rotate( calc( var(--initial-angle) - var(--base-angle) ) ); }
+[data-eixo-atual='Ambiente de negócios'] { transform: rotate( calc( var(--initial-angle) - 2*var(--base-angle) ) ); }
+[data-eixo-atual='Serviço Público'] { transform: rotate( calc( var(--initial-angle) - 3*var(--base-angle) ) ); }
+[data-eixo-atual='Investimento'] { transform: rotate( calc( var(--initial-angle) + var(--base-angle) ) ); }
+
 [data-eixo='Abertura Comercial'] {
     --cor-principal: #5E2539;
     --cor-secundaria: #F0B5C9;
@@ -41,6 +64,12 @@
 
     flex: 300px 1 0;
     font-family: sans-serif;
+
+}
+
+.card.escondido {
+
+    display: none;
 
 }
 

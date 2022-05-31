@@ -9,6 +9,7 @@ function read_data(caminho) {
 
         make_cards(data);
         buttons.monitora();
+        wheel.monitora();
 
       })
 }
@@ -57,6 +58,17 @@ function make_cards(data) {
 
 }
 
+function filtra_cards(eixo) {
+
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        if (card.dataset.eixo == eixo) card.classList.remove('escondido')
+        else card.classList.add('escondido');
+    })
+
+}
+
 const buttons = {
 
     monitora : () => {
@@ -78,6 +90,30 @@ const buttons = {
             texto.style.display = texto.style.display == 'none' ? 'block' : 'none';
 
         }
+
+    }
+
+}
+
+
+const wheel = {
+
+    monitora : () => {
+
+        const pols = document.querySelectorAll('[data-eixo-roda]');
+
+        pols.forEach(pol => pol.addEventListener('click', wheel.atua))
+
+    },
+
+    atua : (e) => {
+
+        const eixo = e.target.dataset.eixoRoda;
+
+        const roda = document.querySelector('[data-eixo-atual]');
+        roda.dataset.eixoAtual = eixo;
+
+        filtra_cards(eixo);
 
     }
 

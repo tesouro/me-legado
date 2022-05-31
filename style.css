@@ -12,20 +12,21 @@
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    padding: 1rem;
 
 }
 
 .card {
 
     flex: 300px 1 0;
-    padding: 1rem;
+    font-family: sans-serif;
 
 }
 
 .card p {
 
     margin: 0;
-    padding: .7em;
+    padding: 1rem;
 
 
 }
@@ -52,6 +53,14 @@
     height: 1.5rem;
     text-align: center;
     display: inline-block;
+}
+
+.card-btn-expandir::after {
+    content: '+';
+}
+
+.card-btn-expandir.btn-expandido::after {
+    content: '-';
 }
 
 .card-texto {

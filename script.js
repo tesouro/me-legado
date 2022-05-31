@@ -8,6 +8,7 @@ function read_data(caminho) {
         console.log(data.map(d => d.eixo).filter((d, i, a) => a.indexOf(d) == i));
 
         make_cards(data);
+        buttons.monitora();
 
       })
 }
@@ -36,11 +37,12 @@ function make_cards(data) {
 
         const btn = document.createElement('button');
         btn.classList.add('card-btn-expandir');
-        btn.innerText = '+';
+        //btn.innerText = '+';
 
         const texto = document.createElement('p');
         texto.classList.add('card-texto');
         texto.innerText = detalhe;
+        texto.style.display = 'none';
 
         cont_titulo.appendChild(titulo);
         cont_titulo.appendChild(btn);
@@ -54,3 +56,30 @@ function make_cards(data) {
     })
 
 }
+
+const buttons = {
+
+    monitora : () => {
+
+        document.querySelector('.card-container').addEventListener('click', buttons.atua);
+
+    },
+
+    atua : (e) => {
+
+        console.log(e.target, e.target.className, e.target.parentElement.parentElement);
+
+        if ( e.target.classList.contains('card-btn-expandir') ) {
+
+            e.target.classList.toggle('btn-expandido');
+            const card = e.target.parentElement.parentElement;
+            const texto = card.querySelector('.card-texto');
+            console.log(texto.style.display);
+            texto.style.display = texto.style.display == 'none' ? 'block' : 'none';
+
+        }
+
+    }
+
+}
+

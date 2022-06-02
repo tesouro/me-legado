@@ -31,7 +31,7 @@ function trataDadosAninhados(array, separador) {
 
     array.forEach(el => {
 
-        const mini_array = el.split(separador);
+        const mini_array = el.split(separador).map(d => d.trim());
 
         lista.push(...mini_array)
 
@@ -116,6 +116,8 @@ function make_cards(data) {
         card.appendChild(texto);
         card.dataset.eixo = eixo;
         card.dataset.pilar = pilar;
+        card.dataset.setor = d.setor;
+        card.dataset.publico = d.publico;
 
         container.appendChild(card);
 

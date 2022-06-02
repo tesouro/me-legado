@@ -139,6 +139,20 @@ svg text {
     color: var(--cor-principal);
 }
 
+
+select {
+
+    font-family: Inter;
+    font-size: 1rem;
+    border: 3px solid #333;
+    color: #333;
+    padding: .3em;
+    border-radius: 5px;
+
+}
+
+
+
 @keyframes balanca {
 
     0% {

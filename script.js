@@ -17,6 +17,8 @@ function read_data(caminho) {
 function init(data) {
 
     get_unique_values(data);
+    filtros.setor.popula();
+    filtros.publico.popula();
     make_cards(data);
     buttons.monitora();
     wheel.monitora();
@@ -125,7 +127,7 @@ function make_cards(data) {
 
 }
 
-function filtra_cards(eixo) {
+function filtra_cards_eixo(eixo) {
 
     const cards = document.querySelectorAll('.card');
 
@@ -164,13 +166,45 @@ const buttons = {
 
 const filtros = {
 
-    pilar : {
+    setor : {
 
         popula : () => {
 
-            const pilares = classificadores.pilar;
+            const setores = classificadores.setor;
 
-            
+            const seletor = document.querySelector('select#filtro-setor');
+
+            setores.forEach(setor => {
+
+                const new_option = document.createElement('option');
+                new_option.value = setor;
+                new_option.innerText = setor;
+
+                seletor.appendChild(new_option);
+
+            })
+
+        }
+
+    },
+
+    publico : {
+
+        popula : () => {
+
+            const publicos = classificadores.publico;
+
+            const seletor = document.querySelector('select#filtro-publico');
+
+            publicos.forEach(pub => {
+
+                const new_option = document.createElement('option');
+                new_option.value = pub;
+                new_option.innerText = pub;
+
+                seletor.appendChild(new_option);
+
+            })
 
         }
 
@@ -195,7 +229,7 @@ const wheel = {
         const roda = document.querySelector('[data-eixo-atual]');
         roda.dataset.eixoAtual = eixo;
 
-        filtra_cards(eixo);
+        filtra_cards_eixo(eixo);
 
     }
 

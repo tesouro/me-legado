@@ -10,8 +10,7 @@
 }
 
 .nav-wheel {
-    max-width: 300px;
-    margin: 0 auto;
+    width: 100%;
 }
 
 svg[data-eixo-atual] {
@@ -151,6 +150,53 @@ select {
 
 }
 
+.outer-container-pilares {
+    display: flex;
+    align-items: center;
+}
+
+.container-pilares {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.filtros {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: 
+      "wheel pilares publico"
+      "wheel pilares setores";
+
+}
+
+.outer-container-pilares { grid-area: pilares; }
+.container-filtro-setor { grid-area: setores; }
+.container-filtro-publico { grid-area: publico; }
+.nav-wheel { grid-area: wheel; }
+
+.container-filtro-setor, .container-filtro-publico {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-pilares span {
+    font-size: .8rem;
+    padding: .4em .6em;
+    margin: .3em;
+    border-radius: 1em;
+    background-color: #333;
+    color: white;
+    border: 1px solid #333;
+    display: inline-block;
+    font-weight: 300;
+}
 
 
 @keyframes balanca {

@@ -19,6 +19,7 @@ function init(data) {
     get_unique_values(data);
     filtros.setor.popula();
     filtros.publico.popula();
+    filtros.pilares.popula();
     make_cards(data);
     buttons.monitora();
     wheel.monitora();
@@ -206,6 +207,28 @@ const filtros = {
 
             })
 
+        }
+
+    },
+    
+    pilares : {
+
+        popula : () => {
+
+            const pilares = classificadores.pilar;
+
+            const container = document.querySelector('.container-pilares');
+
+            pilares.forEach(pilar => {
+
+                const new_span = document.createElement('span');
+
+                new_span.innerText = pilar;
+                new_span.dataset.filtroPilar = pilar;
+
+                container.appendChild(new_span);
+
+            })
         }
 
     }

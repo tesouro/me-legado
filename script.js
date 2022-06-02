@@ -1,3 +1,5 @@
+const classificadores = {};
+
 function read_data(caminho) {
     fetch(caminho)
       .then(response => response.json())
@@ -7,14 +9,39 @@ function read_data(caminho) {
 
         console.log(data.map(d => d.eixo).filter((d, i, a) => a.indexOf(d) == i));
 
-        make_cards(data);
-        buttons.monitora();
-        wheel.monitora();
+        init(data);
 
       })
 }
 
+function init(data) {
+
+    get_unique_values(data);
+    make_cards(data);
+    buttons.monitora();
+    wheel.monitora();
+
+}
+
 read_data('conteudo.json');
+
+function get_unique_values(data) {
+
+    function unique(data, column) {
+
+        //console.log(column, data[0][column], data.map(d => d[column]).filter(d => d).filter((d, i, a) => a.indexOf(d) == i));
+        return data.map(d => d[column]).filter(d => d).filter((d, i, a) => a.indexOf(d) == i);
+    }
+
+    const columns = ['pilar', 'publico', 'setor'];
+
+    columns.forEach(column => {
+
+       classificadores[column] = unique(data, column);
+
+    })
+
+}
 
 function make_cards(data) {
 
@@ -25,6 +52,7 @@ function make_cards(data) {
         const acao = d.acao;
         const detalhe = d.detalhe;
         const eixo = d.eixo;
+        const pilar = d.pilar;
 
         const card = document.createElement('div');
         card.classList.add('card');
@@ -51,6 +79,7 @@ function make_cards(data) {
         card.appendChild(cont_titulo);
         card.appendChild(texto);
         card.dataset.eixo = eixo;
+        card.dataset.pilar = pilar;
 
         container.appendChild(card);
 
@@ -95,6 +124,21 @@ const buttons = {
 
 }
 
+const filtros = {
+
+    pilar : {
+
+        popula : () => {
+
+            const pilares = classificadores.pilar;
+
+            
+
+        }
+
+    }
+
+}
 
 const wheel = {
 

@@ -5,6 +5,8 @@
 :root {
     --base-angle: calc(360deg / 7);
     --initial-angle: calc(360deg / 14);
+
+    font-family: Inter;
 }
 
 .nav-wheel {
@@ -68,7 +70,7 @@ svg text {
 .card {
 
     flex: 300px 1 0;
-    font-family: sans-serif;
+    font-family: Inter;
 
 }
 
@@ -103,13 +105,18 @@ svg text {
     border-radius: 50%;
     background-color: var(--cor-principal);
     color: white;
-    border: 2px solid white;
-    width: 1.5rem;
-    height: 1.5rem;
+    border: 4px solid white;
+    width: 2rem;
+    height: 2rem;
     text-align: center;
     display: inline-block;
-    transition: border-color .5s, color .5s;
+    transition: border-color .25s, color .25s;
     cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card-btn-expandir:hover {
@@ -123,13 +130,13 @@ svg text {
 }
 
 .card-btn-expandir.btn-expandido::after {
-    content: '-';
+    content: '–';
 }
 
 .card-texto {
     border-radius: 0 0 1rem 1rem;
     background-color: var(--cor-secundaria);
-    color: white;
+    color: var(--cor-principal);
 }
 
 @keyframes balanca {

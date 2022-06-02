@@ -25,6 +25,22 @@ function init(data) {
 
 read_data('conteudo.json');
 
+function trataDadosAninhados(array, separador) {
+
+    let lista = [];
+
+    array.forEach(el => {
+
+        const mini_array = el.split(separador);
+
+        lista.push(...mini_array)
+
+    })
+
+    return lista.filter((d, i, a) => a.indexOf(d) == i)
+
+}
+
 function get_unique_values(data) {
 
     function unique(data, column) {
@@ -37,7 +53,27 @@ function get_unique_values(data) {
 
     columns.forEach(column => {
 
-       classificadores[column] = unique(data, column);
+        const lista_pre = unique(data, column);
+        let lista;
+
+        if (column == 'pilar') {
+
+            lista = trataDadosAninhados(lista_pre, ',');
+
+        } else {
+
+            if (column == 'publico') {
+
+                lista = trataDadosAninhados(lista_pre, '/');
+
+            } else {
+
+                lista = lista_pre;
+
+            }
+        }
+
+       classificadores[column] = lista
 
     })
 

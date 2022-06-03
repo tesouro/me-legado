@@ -11,6 +11,8 @@
 
 .nav-wheel {
     width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 svg[data-eixo-atual] {
@@ -63,6 +65,7 @@ svg text {
     gap: 1rem;
     flex-wrap: wrap;
     padding: 1rem;
+    padding-top: 2rem;
 
 }
 
@@ -156,14 +159,22 @@ select {
 }
 
 .container-pilares {
+
+    max-width: 800px;
+    margin: 1rem auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 
-
 }
 
+.filtros {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid gray;
+}
+
+/*
 .filtros {
 
     display: grid;
@@ -179,11 +190,15 @@ select {
 .container-filtro-setor { grid-area: setores; }
 .container-filtro-publico { grid-area: publico; }
 .nav-wheel { grid-area: wheel; }
+*/
 
-.container-filtro-setor, .container-filtro-publico {
+.container-filtro {
     display: flex;
-    flex-direction: column;
     justify-content: center;
+}
+
+.container-filtro * + * {
+    margin-left: 1rem;
 }
 
 .container-pilares span {
@@ -191,13 +206,25 @@ select {
     padding: .4em .6em;
     margin: .3em;
     border-radius: 1em;
-    background-color: #333;
-    color: white;
-    border: 1px solid #333;
+    background-color: whitesmoke;
+    color: #333;
+    border: 2px solid #333;
     display: inline-block;
-    font-weight: 300;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
 }
 
+.container-pilares span:hover {
+    box-shadow: #333 0 0 2px 2px;
+}
+
+.container-pilares span.selected {
+
+    background-color: #333;
+    color: whitesmoke;
+
+}
 
 @keyframes balanca {
 

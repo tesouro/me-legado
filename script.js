@@ -23,6 +23,7 @@ function init(data) {
     make_cards(data);
     buttons.monitora();
     wheel.monitora();
+    filtros.pilares.monitora();
 
 }
 
@@ -213,6 +214,8 @@ const filtros = {
     
     pilares : {
 
+        filtro_atual : [],
+
         popula : () => {
 
             const pilares = classificadores.pilar;
@@ -229,6 +232,25 @@ const filtros = {
                 container.appendChild(new_span);
 
             })
+
+        },
+
+        monitora : () => {
+
+            const cont = document.querySelector('.outer-container-pilares');
+
+            cont.addEventListener('click', filtros.pilares.atua);
+
+        },
+
+        atua : (e) => {
+
+            if (e.target.tagName == 'SPAN') {
+
+                e.target.classList.toggle('selected');
+
+            }
+
         }
 
     }

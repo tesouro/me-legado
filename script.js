@@ -249,6 +249,20 @@ const filtros = {
 
                 e.target.classList.toggle('selected');
 
+                const pilar = e.target.dataset.filtroPilar;
+
+                if (filtros.pilares.filtro_atual.indexOf(pilar) == -1) {
+
+                    filtros.pilares.filtro_atual.push(pilar);
+
+                } else {
+
+                    filtros.pilares.filtro_atual = filtros.pilares.filtro_atual.filter(d => d != pilar)
+
+                }
+
+                console.log(filtros.pilares.filtro_atual);
+
             }
 
         }

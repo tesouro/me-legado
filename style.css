@@ -76,7 +76,10 @@ svg text {
 
 }
 
-.card.escondido {
+.card.escondido-eixo, 
+.card.escondido-pilar, 
+.card.escondido-publico,
+.card.escondido-setor {
 
     display: none;
 

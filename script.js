@@ -134,8 +134,8 @@ function filtra_cards_eixo(eixo) {
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        if (card.dataset.eixo == eixo) card.classList.remove('escondido')
-        else card.classList.add('escondido');
+        if (card.dataset.eixo == eixo) card.classList.remove('escondido-eixo')
+        else card.classList.add('escondido-eixo');
     })
 
 }
@@ -247,7 +247,10 @@ const filtros = {
 
             if (e.target.tagName == 'SPAN') {
 
+                // * * * * faz o efeito visual de estar selecionado ou não
                 e.target.classList.toggle('selected');
+
+                // * * * * manipula a lista de filtros atuais em relação a pilares
 
                 const pilar = e.target.dataset.filtroPilar;
 
@@ -261,7 +264,54 @@ const filtros = {
 
                 }
 
-                console.log(filtros.pilares.filtro_atual);
+                //console.log(filtros.pilares.filtro_atual);
+
+                // * * * * lógica para saber se o card deve sumir ou aparecer
+
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+
+                    let pilar_presente;
+
+                    // o caso em que nenhum filtro foi selecionado
+                    if (filtros.pilares.filtro_atual.length == 0) {
+
+                        pilar_presente = true;
+
+                    } else {
+
+                        const pilar_card_string = card.dataset.pilar;
+
+                        pilares_card = pilar_card_string.split(','); // para o caso de ter mais de um
+    
+                        pilar_presente = false;
+    
+                        pilares_card.forEach(pilar_card => {
+    
+                            if ( filtros.pilares.filtro_atual.indexOf(pilar_card) > -1 ) { // ou seja, se o pilar atual está na lista de filtros
+    
+                                pilar_presente = pilar_presente | true;
+    
+                            } else {
+    
+                                pilar_presente = pilar_presente | false;
+    
+                            }
+    
+                        })
+
+                    }
+
+                    // agora, só depois de verificar se PELO MENOS um dos pilares está presente, é que eu vou adicionar ou remover a classe "escondido";
+
+                    if (pilar_presente) {
+                        card.classList.remove('escondido-pilar');
+                    } else {
+                        card.classList.add('escondido-pilar');
+                    }
+
+                })
 
             }
 

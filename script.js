@@ -28,6 +28,8 @@ function init(data) {
     //wheel.monitora();
     filtros.eixo.monitora();
     filtros.pilares.monitora();
+    filtros.publico.monitora();
+    filtros.setor.monitora();
 
 }
 
@@ -214,6 +216,55 @@ const filtros = {
 
             })
 
+        },
+
+        monitora : () => {
+
+            const seletor = document.querySelector('select#filtro-setor');
+
+            seletor.addEventListener('change', filtros.setor.atua);
+
+        },
+
+        atua : (e) => {
+
+            const setor = e.target.value;
+
+            if (setor != "") {
+
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+
+                    const setor_atual = card.dataset.setor;
+
+                    if ( setor_atual == setor ) {
+
+                        card.classList.remove('escondido-setor');
+
+                    } else card.classList.add('escondido-setor');
+                })
+
+            } else {
+
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => card.classList.remove('escondido-setor'));
+                
+            }
+
+        },
+
+        reseta : () => {
+
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach( card => card.classList.remove('escondido-setor') );
+
+            const seletor = document.querySelector('select#filtro-setor');
+
+            seletor.value = "";
+
         }
 
     },
@@ -236,7 +287,59 @@ const filtros = {
 
             })
 
+        },
+
+        monitora : () => {
+
+            const seletor = document.querySelector('select#filtro-publico');
+
+            seletor.addEventListener('change', filtros.publico.atua);
+
+        },
+
+        atua : (e) => {
+
+            const publico = e.target.value;
+
+            if (publico != "") {
+
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => {
+
+                    const publico_atual = card.dataset.publico;
+
+                    if ( publico_atual.indexOf(publico) > -1 ) { // como a string do data-publico pode conter mais do que um publico, não estou procurando um exact match, mas só se a string contem o publico atual
+
+                        card.classList.remove('escondido-publico');
+
+                    } else card.classList.add('escondido-publico');
+                })
+
+            } else {
+
+                const cards = document.querySelectorAll('.card');
+
+                cards.forEach(card => card.classList.remove('escondido-publico'));
+                
+            }
+
+        },
+
+        reseta : () => {
+
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach( card => card.classList.remove('escondido-publico') );
+
+            const seletor = document.querySelector('select#filtro-publico');
+
+            seletor.value = "";
+
         }
+
+
+
 
     },
 
@@ -259,6 +362,10 @@ const filtros = {
                 filtros.eixo.ativa(eixo);
 
                 filtros.pilares.prepara_novo_eixo(eixo);
+
+                filtros.publico.reseta();
+
+                filtros.setor.reseta();
         
                 filtra_cards_eixo(eixo);
 
@@ -385,7 +492,7 @@ const filtros = {
 
                     const pilar_card_string = card.dataset.pilar;
 
-                    pilares_card = pilar_card_string.split(','); // para o caso de ter mais de um
+                    const pilares_card = pilar_card_string.split(','); // para o caso de ter mais de um
 
                     pilar_presente = false;
 

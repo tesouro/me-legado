@@ -1,15 +1,20 @@
 const classificadores = {};
 
+let data_raw;
+
 const eixos_pilares = {};
+
+let setores_presentes = [];
+let publicos_presentes = [];
 
 function read_data(caminho) {
     fetch(caminho)
       .then(response => response.json())
       .then(data => {
 
-        console.log(data);
+        data = data.filter(d => d.acao != "Ação");
 
-        console.log(data.map(d => d.eixo).filter((d, i, a) => a.indexOf(d) == i));
+        data_raw = data;
 
         init(data);
 
@@ -170,6 +175,52 @@ function filtra_cards_eixo(eixo) {
 
 }
 
+function atualiza_setores_publicos_presentes() {
+
+    const cards = document.querySelectorAll('.card');
+
+    publicos_presentes = [];
+    setores_presentes = [];
+
+    cards.forEach(card => {
+
+        if ( card.className.indexOf('escondido') == -1 ) {
+
+            const publico_string = card.dataset.publico;
+            const publicos = publico_string.split('/').map(d => d.trim());
+
+            const setor = card.dataset.setor;
+
+            publicos_presentes.push(...publicos);
+            setores_presentes.push(setor);
+
+        }
+
+    });
+
+    publicos_presentes = publicos_presentes.filter((d, i, a) => a.indexOf(d) == i).filter(d => d != 'undefined');
+    setores_presentes = setores_presentes.filter((d, i, a) => a.indexOf(d) == i).filter(d => d != 'undefined');
+
+    document.querySelectorAll('option').forEach(option => {
+        if (option.value != "") option.disabled = true
+    });
+
+    console.log(publicos_presentes, setores_presentes);
+
+    publicos_presentes.forEach(publico => {
+        document.querySelector(`select#filtro-publico option[value='${publico}']`).disabled = false;
+    })
+
+    setores_presentes.forEach(setor => {
+        document.querySelector(`select#filtro-setor option[value='${setor}']`).disabled = false;
+    })
+
+
+    console.log('terminou');
+
+
+}
+
 const buttons = {
 
     monitora : () => {
@@ -253,6 +304,8 @@ const filtros = {
                 
             }
 
+            //atualiza_setores_publicos_presentes();
+
         },
 
         reseta : () => {
@@ -297,6 +350,10 @@ const filtros = {
 
         },
 
+        filtra_opcoes : () => {
+
+        },
+
         atua : (e) => {
 
             const publico = e.target.value;
@@ -323,6 +380,8 @@ const filtros = {
                 cards.forEach(card => card.classList.remove('escondido-publico'));
                 
             }
+
+            //atualiza_setores_publicos_presentes();
 
         },
 
@@ -368,6 +427,8 @@ const filtros = {
                 filtros.setor.reseta();
         
                 filtra_cards_eixo(eixo);
+
+                atualiza_setores_publicos_presentes();
 
             }
     
@@ -465,6 +526,8 @@ const filtros = {
                 }
 
                 filtros.pilares.filtra_cards_pilares();
+
+                //atualiza_setores_publicos_presentes();
 
                 //console.log(filtros.pilares.filtro_atual);
 

@@ -271,6 +271,17 @@ select {
 
 }
 
+.container-pilares span.disabled {
+
+    opacity: .2;
+    cursor: initial;
+
+}
+
+.container-pilares span.disabled:hover {
+    box-shadow: none;
+}
+
 @keyframes balanca {
 
     0% {

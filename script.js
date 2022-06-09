@@ -1,5 +1,7 @@
 const classificadores = {};
 
+const eixos_pilares = {};
+
 function read_data(caminho) {
     fetch(caminho)
       .then(response => response.json())
@@ -17,6 +19,7 @@ function read_data(caminho) {
 function init(data) {
 
     get_unique_values(data);
+    levanta_relacao_eixos_pilares(data);
     filtros.setor.popula();
     filtros.publico.popula();
     filtros.pilares.popula();
@@ -54,7 +57,7 @@ function get_unique_values(data) {
         return data.map(d => d[column]).filter(d => d).filter((d, i, a) => a.indexOf(d) == i);
     }
 
-    const columns = ['pilar', 'publico', 'setor'];
+    const columns = ['eixo', 'pilar', 'publico', 'setor'];
 
     columns.forEach(column => {
 
@@ -78,7 +81,31 @@ function get_unique_values(data) {
             }
         }
 
+        if (column == 'eixo') {
+
+            lista = data.map(d => d.eixo).filter((d, i, a) => a.indexOf(d) == i);
+
+        }
+
        classificadores[column] = lista
+
+    })
+
+}
+
+function levanta_relacao_eixos_pilares(data) {
+
+    const eixos = classificadores.eixo;
+
+    eixos.forEach(eixo => {
+
+        const pilares_raw = data.filter(d => d.eixo == eixo).map(d => d.pilar);
+
+        const pilares = trataDadosAninhados(pilares_raw, ',');
+
+        //console.log(pilares);
+
+        eixos_pilares[eixo] = pilares;
 
     })
 
@@ -230,6 +257,8 @@ const filtros = {
                 const eixo = e.target.dataset.eixo;
     
                 filtros.eixo.ativa(eixo);
+
+                filtros.pilares.prepara_novo_eixo(eixo);
         
                 filtra_cards_eixo(eixo);
 
@@ -243,7 +272,7 @@ const filtros = {
 
             if (eixo) document.querySelector(`[data-eixo='${eixo}']`).classList.add('ativo');
 
-        }
+        },
 
     },
     
@@ -267,6 +296,35 @@ const filtros = {
                 container.appendChild(new_span);
 
             })
+
+        },
+
+        prepara_novo_eixo : (eixo) => {
+
+            const pilares = eixos_pilares[eixo];
+
+            document.querySelectorAll(`[data-filtro-pilar]`).forEach(span => {
+                
+                span.classList.add('disabled');
+                span.classList.remove('selected');
+                
+            });
+
+            document.querySelectorAll(`[data-filtro-pilar]`).forEach(span => {
+
+                const pilar_atual = span.dataset.filtroPilar;
+
+                if ( pilares.indexOf(pilar_atual) > -1 ) {
+
+                    span.classList.remove('disabled');
+                    span.classList.add('selected');
+                    filtros.pilares.filtro_atual.push(pilar_atual);
+
+                } 
+
+            })
+
+            filtros.pilares.filtra_cards_pilares();
 
         },
 
@@ -299,56 +357,64 @@ const filtros = {
 
                 }
 
+                filtros.pilares.filtra_cards_pilares();
+
                 //console.log(filtros.pilares.filtro_atual);
 
                 // * * * * lógica para saber se o card deve sumir ou aparecer
 
-                const cards = document.querySelectorAll('.card');
-
-                cards.forEach(card => {
-
-                    let pilar_presente;
-
-                    // o caso em que nenhum filtro foi selecionado
-                    if (filtros.pilares.filtro_atual.length == 0) {
-
-                        pilar_presente = true;
-
-                    } else {
-
-                        const pilar_card_string = card.dataset.pilar;
-
-                        pilares_card = pilar_card_string.split(','); // para o caso de ter mais de um
-    
-                        pilar_presente = false;
-    
-                        pilares_card.forEach(pilar_card => {
-    
-                            if ( filtros.pilares.filtro_atual.indexOf(pilar_card) > -1 ) { // ou seja, se o pilar atual está na lista de filtros
-    
-                                pilar_presente = pilar_presente | true;
-    
-                            } else {
-    
-                                pilar_presente = pilar_presente | false;
-    
-                            }
-    
-                        })
-
-                    }
-
-                    // agora, só depois de verificar se PELO MENOS um dos pilares está presente, é que eu vou adicionar ou remover a classe "escondido";
-
-                    if (pilar_presente) {
-                        card.classList.remove('escondido-pilar');
-                    } else {
-                        card.classList.add('escondido-pilar');
-                    }
-
-                })
-
             }
+
+        },
+
+        filtra_cards_pilares : () => {
+
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+
+                let pilar_presente;
+
+                // o caso em que nenhum filtro foi selecionado
+                if (filtros.pilares.filtro_atual.length == 0) {
+
+                    // comentando para mudar o comportamento. antes, se não havia pilar selecionado, não se filtrava nada. agora, se não há pilar selecionado, não há resultado.
+                    //pilar_presente = true;
+
+                } else {
+
+                    const pilar_card_string = card.dataset.pilar;
+
+                    pilares_card = pilar_card_string.split(','); // para o caso de ter mais de um
+
+                    pilar_presente = false;
+
+                    pilares_card.forEach(pilar_card => {
+
+                        if ( filtros.pilares.filtro_atual.indexOf(pilar_card) > -1 ) { // ou seja, se o pilar atual está na lista de filtros
+
+                            pilar_presente = pilar_presente | true;
+
+                        } else {
+
+                            pilar_presente = pilar_presente | false;
+
+                        }
+
+                    })
+
+                }
+
+                // agora, só depois de verificar se PELO MENOS um dos pilares está presente, é que eu vou adicionar ou remover a classe "escondido";
+
+                if (pilar_presente) {
+                    card.classList.remove('escondido-pilar');
+                } else {
+                    card.classList.add('escondido-pilar');
+                }
+
+            })
+
 
         }
 

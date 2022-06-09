@@ -33,6 +33,48 @@ svg text {
 [data-eixo-atual='Serviço Público'] { transform: rotate( calc( var(--initial-angle) - 3*var(--base-angle) ) ); }
 [data-eixo-atual='Investimento'] { transform: rotate( calc( var(--initial-angle) + var(--base-angle) ) ); }
 
+
+.container-eixo {
+
+    /*display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));*/
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 10px;
+
+}
+
+.container-eixo > div {
+    font-size: .9rem;
+    flex: 1 1 100px;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: .5rem;
+    min-height: 80px;
+    border: 3px solid #333;
+    color: #333;
+
+}
+
+.container-eixo > div:hover {
+
+    background-color: var(--cor-secundaria);
+
+}
+
+.container-eixo > div.ativo {
+
+    color: var(--cor-secundaria);
+    background-color: var(--cor-principal);
+    border-color: var(--cor-secundaria)
+
+}
+
+
+
 [data-eixo='Abertura Comercial'] {
     --cor-principal: #5E2539;
     --cor-secundaria: #F0B5C9;

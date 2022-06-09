@@ -22,7 +22,8 @@ function init(data) {
     filtros.pilares.popula();
     make_cards(data);
     buttons.monitora();
-    wheel.monitora();
+    //wheel.monitora();
+    filtros.eixo.monitora();
     filtros.pilares.monitora();
 
 }
@@ -211,6 +212,40 @@ const filtros = {
         }
 
     },
+
+    eixo : {
+
+        monitora : () => {
+
+            const cont = document.querySelector('.container-eixo');
+    
+            cont.addEventListener('click', filtros.eixo.atua);
+    
+        },
+    
+        atua : (e) => {
+    
+            if (e.target.dataset.eixo) {
+
+                const eixo = e.target.dataset.eixo;
+    
+                filtros.eixo.ativa(eixo);
+        
+                filtra_cards_eixo(eixo);
+
+            }
+    
+        },
+
+        ativa : (eixo) => {
+
+            document.querySelectorAll('[data-eixo]').forEach(div => div.classList.remove('ativo'));
+
+            if (eixo) document.querySelector(`[data-eixo='${eixo}']`).classList.add('ativo');
+
+        }
+
+    },
     
     pilares : {
 
@@ -321,6 +356,7 @@ const filtros = {
 
 }
 
+/*
 const wheel = {
 
     monitora : () => {
@@ -343,4 +379,5 @@ const wheel = {
     }
 
 }
+*/
 
